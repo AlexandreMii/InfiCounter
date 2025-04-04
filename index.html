@@ -15,8 +15,20 @@
   <button onclick="copierTexte()">📋 Copier les chiffres</button>
   <button onclick="changeSpeed()">⚡ Vitesse (Actuelle: <span id="speedValue">50ms</span>)</button>
   <button onclick="setStartNumber()">🔢 Choisir un chiffre de départ</button>
-
+  <button oneclick="increaseFontSize()">🔍 +</button>
+  <button oneclick="decreaseFontSize()">🔍 -</button>
+  <button onclick="changerBackground()">🎨 Changer le background</button>
+  <button onclick="window.location.href='about.html'">ℹ️ À propos</button>
   <script>
+
+    const outputDiv = document.getElementById('output');
+    outputDiv.style.fontFamily = 'monospace'; // Utiliser une police monospace pour un affichage uniforme
+    function setFontSize(size) {
+      outputDiv.style.fontSize = size + 'px';
+    }
+    setFontSize(16); // Taille de police par défaut
+    // Changer la couleur de fond et de texte
+    // Générateur de chiffres infini
     let i = 0; // Chiffre de départ par défaut
     let running = false;
     let interval;
@@ -75,3 +87,48 @@
   </script>
 </body>
 </html>
+
+<script>
+  let fontSize = 16; // Taille initiale en pixels
+
+  function increaseFontSize() {
+    fontSize += 2;
+    document.getElementById('output').style.fontSize = fontSize + 'px';
+  }
+
+  function decreaseFontSize() {
+    fontSize = Math.max(10, fontSize - 2); // Limite minimale
+    document.getElementById('output').style.fontSize = fontSize + 'px';
+  }
+</script>
+
+<script>
+let backgrounds = [
+  { bg: "#282c34", color: "#61dafb" },
+  { bg: "#0f0f0f", color: "#00ffcc" },
+  { bg: "#1a0033", color: "#cc66ff" },
+  { bg: "#001f3f", color: "#7FDBFF" },
+  { bg: "#111111", color: "#39ff14" }
+];
+
+let currentBg = 0;
+
+function changerBackground() {
+  currentBg = (currentBg + 1) % backgrounds.length;
+  const theme = backgrounds[currentBg];
+
+  // Appliquer à body
+  document.body.style.backgroundColor = theme.bg;
+  document.body.style.color = theme.color;
+
+  // Appliquer à tous les boutons
+  document.querySelectorAll("button").forEach(btn => {
+    btn.style.backgroundColor = theme.color;
+    btn.style.color = theme.bg;
+  });
+
+  // Appliquer au logo
+  const logo = document.querySelector(".logo");
+  if (logo) logo.style.color = theme.color;
+}
+</script>
