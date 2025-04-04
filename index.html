@@ -7,19 +7,23 @@
 </head>
 <body>
   <div class="logo">
-    <span>∞</span> Générateur
+    <span>∞</span> InfiCounter
   </div>
-  <h1>Générateur Infini de Nombres</h1>
+  <h1>Infinite Spam Counter</h1>
   <div id="output"></div>
   <button onclick="toggleGenerator()">▶️ Démarrer / ⏸️ Arrêter</button>
   <button onclick="copierTexte()">📋 Copier les chiffres</button>
+  <button onclick="changeSpeed()">⚡ Vitesse (Actuelle: <span id="speedValue">50ms</span>)</button>
+  <button onclick="setStartNumber()">🔢 Choisir un chiffre de départ</button>
 
   <script>
-    let i = 0;
+    let i = 10000000; // Chiffre de départ par défaut
     let running = false;
     let interval;
+    let speed = 0.01; // Vitesse initiale (en ms)
 
     const output = document.getElementById('output');
+    const speedValue = document.getElementById('speedValue');
 
     function generate() {
       output.textContent += i + '\n';
@@ -32,7 +36,7 @@
         clearInterval(interval);
         running = false;
       } else {
-        interval = setInterval(generate, 50);
+        interval = setInterval(generate, speed);
         running = true;
       }
     }
@@ -42,6 +46,31 @@
       navigator.clipboard.writeText(texte).then(() => {
         alert("✅ Chiffres copiés !");
       });
+    }
+
+    function changeSpeed() {
+      speed = prompt("Entrez la nouvelle vitesse (en ms, par exemple 50, 100, 200, etc.):", speed);
+      speed = parseInt(speed);
+      if (isNaN(speed) || speed <= 0) {
+        alert("Veuillez entrer un nombre valide.");
+        return;
+      }
+      speedValue.textContent = speed + "ms";
+      if (running) {
+        clearInterval(interval);
+        interval = setInterval(generate, speed); // Appliquer la nouvelle vitesse
+      }
+    }
+
+    function setStartNumber() {
+      let startNumber = prompt("Entrez le chiffre de départ (par exemple : 108416)", i);
+      startNumber = parseInt(startNumber);
+      if (isNaN(startNumber) || startNumber <= 0) {
+        alert("Veuillez entrer un nombre valide.");
+        return;
+      }
+      i = startNumber; // Mettre à jour le chiffre de départ
+      output.textContent = ''; // Réinitialiser l'affichage
     }
   </script>
 </body>
