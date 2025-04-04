@@ -127,3 +127,27 @@ p {
   text-shadow: 0 0 5px #00fff7;
   margin-bottom: 20px;
 }
+
+button {
+  background-color: #00fff7;
+  color: #000;
+  border: none;
+  padding: 15px 30px;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 0 10px #00fff7, 0 0 20px #00fff7;
+  transition: all 0.3s ease;
+}
+button:hover {
+  background-color: #00ffcc;
+  color: #000;
+  text-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc;
+  box-shadow: 0 0 20px #00ffcc, 0 0 40px #00ffcc;
+}
+button:active {
+  transform: scale(0.95);
+  box-shadow: 0 0 5px #00ffcc, 0 0 10px #00ffcc;
+}
+/* Animation de défilement pour le texte de sortie */
