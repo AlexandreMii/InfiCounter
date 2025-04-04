@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Générateur Infini</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="logo">
+    <span>∞</span> Générateur
+  </div>
+  <h1>Générateur Infini de Nombres</h1>
+  <div id="output"></div>
+  <button onclick="toggleGenerator()">▶️ Démarrer / ⏸️ Arrêter</button>
+  <button onclick="copierTexte()">📋 Copier les chiffres</button>
+
+  <script>
+    let i = 0;
+    let running = false;
+    let interval;
+
+    const output = document.getElementById('output');
+
+    function generate() {
+      output.textContent += i + '\n';
+      i++;
+      output.scrollTop = output.scrollHeight;
+    }
+
+    function toggleGenerator() {
+      if (running) {
+        clearInterval(interval);
+        running = false;
+      } else {
+        interval = setInterval(generate, 50);
+        running = true;
+      }
+    }
+
+    function copierTexte() {
+      const texte = output.textContent;
+      navigator.clipboard.writeText(texte).then(() => {
+        alert("✅ Chiffres copiés !");
+      });
+    }
+  </script>
+</body>
+</html>
