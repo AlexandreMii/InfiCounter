@@ -17,10 +17,10 @@
   <button onclick="setStartNumber()">🔢 Choisir un chiffre de départ</button>
 
   <script>
-    let i = 10000000; // Chiffre de départ par défaut
+    let i = 0; // Chiffre de départ par défaut
     let running = false;
     let interval;
-    let speed = 0.01; // Vitesse initiale (en ms)
+    let speed = 50; // Vitesse initiale (en ms)
 
     const output = document.getElementById('output');
     const speedValue = document.getElementById('speedValue');
