@@ -19,8 +19,48 @@
   <button oneclick="decreaseFontSize()">🔍 -</button>
   <button onclick="changerBackground()">🎨 Changer le background</button>
   <button onclick="window.location.href='about.html'">ℹ️ À propos</button>
-  <script>
+  <button onclick="contact()">✉️ Contact</button>
+  <button onclick="toggleMusic()">🎶 Musique</button>
+<script>
 
+let music = new Audio('url-de-ta-musique.mp3'); // Remplace 'url-de-ta-musique.mp3' par l'URL de ta musique
+music.loop = true; // Pour que la musique soit en boucle
+
+function toggleMusic() {
+  if (music.paused) {
+    music.play();
+    console.log("Musique lancée !");
+  } else {
+    music.pause();
+    console.log("Musique arrêtée !");
+  }
+}
+  
+    function contact() {
+      const contactForm = document.getElementById('contactForm');
+      if (contactForm) {
+        contactForm.remove(); // Supprimer le formulaire s'il existe déjà
+      } else {
+        document.body.innerHTML += contactFormHTML; // Ajouter le formulaire de contact
+      }
+    }
+  
+    const contactFormHTML = `
+    <div id="contactForm" style="background: rgba(0, 0, 0, 0.8); padding: 20px; border-radius: 10px; box-shadow: 0 0 15px #00fff7; color: #fff;">
+      <h2>Contactez-nous</h2>
+      <form>
+        <label for="name">Nom :</label><br>
+        <input type="text" id="name" name="name" required><br><br>
+        
+        <label for="email">Email :</label><br>
+        <input type="email" id="email" name="email" required><br><br>
+        
+        <label for="message">Message :</label><br>
+        <textarea id="message" name="message" rows="4" required></textarea><br><br>
+        
+        <button type="submit">Envoyer</button>
+      </form>
+    </div>`;
     const outputDiv = document.getElementById('output');
     outputDiv.style.fontFamily = 'monospace'; // Utiliser une police monospace pour un affichage uniforme
     function setFontSize(size) {
@@ -132,3 +172,26 @@ function changerBackground() {
   if (logo) logo.style.color = theme.color;
 }
 </script>
+
+
+    <div style="background: rgba(0, 0, 0, 0.8); padding: 20px; border-radius: 10px; box-shadow: 0 0 15px #00fff7; color: #fff;">
+      <h2>Contactez-nous</h2>
+      <form>
+        <label for="name">Nom :</label><br>
+        <input type="text" id="name" name="name" required><br><br>
+        
+        <label for="email">Email :</label><br>
+        <input type="email" id="email" name="email" required><br><br>
+        
+        <label for="message">Message :</label><br>
+        <textarea id="message" name="message" rows="4" required></textarea><br><br>
+        
+        <button type="submit">Envoyer</button>
+      </form>
+    </div>
+  `;
+
+    <script>
+      // Remplace l'URL de la musique par le fichier spécifié
+      music = new Audio('youtube_7dgGWEZfSDU_audio.mp3');
+    </script>
