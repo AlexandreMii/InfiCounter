@@ -1,0 +1,65 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+  .logo {
+    font-size: 36px;
+    margin: 10px 0;
+  }
+
+  h1 {
+    font-size: 22px;
+    padding: 0 10px;
+  }
+
+  #output {
+    white-space: pre-wrap;
+    text-align: left;
+    margin: 10px;
+    max-height: 300px;
+    overflow-y: auto;
+    font-size: 16px;
+    background: #1c1c1c;
+    padding: 10px;
+    border-radius: 5px;
+    color: #61dafb;
+  }
+
+  button {
+    display: block;
+    width: 90%;
+    margin: 8px auto;
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    background-color: #61dafb;
+    color: #282c34;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    transition: transform 0.2s;
+  }
+
+  button:active {
+button:active {
+    transform: scale(0.98);
+}
+        background-color: #21a1f1;
+    }
+    
+    @media (max-width: 600px) {
+        h1 {
+        font-size: 18px;
+        }
+    
+        #output {
+        font-size: 14px;
+        }
+    
+        button {
+        font-size: 14px;
+        padding: 10px;
+        }
+    }

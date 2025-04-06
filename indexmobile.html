@@ -1,16 +1,72 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>InfiCounter</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InfiCounter Mobile</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #0d0d0d;
+      color: #00fff7;
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+    }
+
+    .logo {
+      font-size: 36px;
+      margin-top: 20px;
+      color: #00fff7;
+      text-shadow: 0 0 10px #00fff7;
+    }
+
+    h1 {
+      font-size: 20px;
+      margin: 10px;
+      padding: 0 10px;
+    }
+
+    #output {
+      white-space: pre-wrap;
+      text-align: left;
+      margin: 10px;
+      padding: 10px;
+      max-height: 300px;
+      overflow-y: auto;
+      background-color: #1a1a1a;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #00fff7;
+      font-size: 16px;
+    }
+
+    button {
+      width: 90%;
+      max-width: 300px;
+      margin: 10px auto;
+      padding: 12px;
+      font-size: 16px;
+      background-color: #00fff7;
+      color: #0d0d0d;
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #00fff7;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    button:active {
+      transform: scale(0.95);
+    }
+  </style>
 </head>
 <body>
-  <div class="logo">
-    <span>∞</span> InfiCounter
-  </div>
-  <h1>Infinite Spam Counter</h1>
+  <div class="logo">💠 InfiCounter</div>
+  <h1>Un compteur infini version mobile !</h1>
+
   <div id="output"></div>
+
   <button onclick="toggleGenerator()">▶️ Démarrer / ⏸️ Arrêter</button>
   <button onclick="copierTexte()">📋 Copier les chiffres</button>
   <button onclick="changeSpeed()">⚡ Vitesse (Actuelle: <span id="speedValue">50ms</span>)</button>
@@ -21,8 +77,6 @@
   <button onclick="window.location.href='about.html'">ℹ️ À propos</button>
   <button onclick="contact()">✉️ Contact</button>
   <button onclick="toggleMusic()">🎶 Musique</button>
-  <button oneclick="'https://ko-fi.com/Alevax'">☕ Soutenir</button>
-  <button onclick="window.location.href='indexmobile.html'">📱 Version Mobile</button>
   <script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('Support', '#379984', 'B0B611TZLX');kofiwidget2.draw();</script> 
 <script>
 
@@ -197,4 +251,17 @@ function changerBackground() {
     <script>
       // Remplace l'URL de la musique par le fichier spécifié
       music = new Audio('youtube_7dgGWEZfSDU_audio.mp3');
+    </script>
+    <script>
+      music.loop = true; // Pour que la musique soit en boucle
+
+      function toggleMusic() {
+        if (music.paused) {
+          music.play();
+          console.log("Musique lancée !");
+        } else {
+          music.pause();
+          console.log("Musique arrêtée !");
+        }
+      }
     </script>
