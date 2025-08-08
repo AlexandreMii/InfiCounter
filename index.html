@@ -3,84 +3,377 @@
 <head>
   <meta charset="UTF-8">
   <title>InfiCounter</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <div class="logo">
-    <span>∞</span> InfiCounter
-  </div>
-  <h1>Infinite Spam Counter</h1>
-  <div id="output"></div>
-  <button onclick="toggleGenerator()">▶️ Démarrer / ⏸️ Arrêter</button>
-  <button onclick="copierTexte()">📋 Copier les chiffres</button>
-  <button onclick="changeSpeed()">⚡ Vitesse (Actuelle: <span id="speedValue">50ms</span>)</button>
-  <button onclick="setStartNumber()">🔢 Choisir un chiffre de départ</button>
-  <button oneclick="increaseFontSize()">🔍 +</button>
-  <button oneclick="decreaseFontSize()">🔍 -</button>
-  <button onclick="changerBackground()">🎨 Changer le background</button>
-  <button onclick="window.location.href='about.html'">ℹ️ À propos</button>
-  <button onclick="contact()">✉️ Contact</button>
-  <button onclick="toggleMusic()">🎶 Musique</button>
-  <button oneclick="'https://ko-fi.com/Alevax'">☕ Soutenir</button>
-  <button onclick="window.location.href='indexmobile.html'">📱 Version Mobile</button>
-  <script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('Support', '#379984', 'B0B611TZLX');kofiwidget2.draw();</script> 
-<script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-let music = new Audio('url-de-ta-musique.mp3'); // Remplace 'url-de-ta-musique.mp3' par l'URL de ta musique
-music.loop = true; // Pour que la musique soit en boucle
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 25%, #0f3460 50%, #533a71 75%, #6b4c57 100%);
+      color: #e8e8e8;
+      min-height: 100vh;
+      padding: 20px;
+      position: relative;
+      overflow-x: hidden;
+    }
 
-function toggleMusic() {
-  if (music.paused) {
-    music.play();
-    console.log("Musique lancée !");
-  } else {
-    music.pause();
-    console.log("Musique arrêtée !");
-  }
-}
-  
-    function contact() {
-      const contactForm = document.getElementById('contactForm');
-      if (contactForm) {
-        contactForm.remove(); // Supprimer le formulaire s'il existe déjà
-      } else {
-        document.body.innerHTML += contactFormHTML; // Ajouter le formulaire de contact
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.1) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.1) 0%, transparent 50%),
+                  radial-gradient(circle at 40% 80%, rgba(120, 219, 255, 0.1) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo {
+      text-align: center;
+      font-size: 3em;
+      font-weight: 300;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #20b2aa 0%, #ff6b9d 50%, #c471ed 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -2px;
+    }
+
+    .logo span {
+      font-size: 1.2em;
+      font-weight: 200;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 1.8em;
+      font-weight: 300;
+      color: rgba(255, 255, 255, 0.9);
+      letter-spacing: -0.5px;
+    }
+
+    #output {
+      background: rgba(26, 26, 46, 0.8);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 30px;
+      min-height: 350px;
+      max-height: 450px;
+      overflow-y: auto;
+      font-family: 'SF Mono', 'Monaco', 'Cascadia Code', monospace;
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 40px;
+      box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      white-space: pre-wrap;
+      color: #e8e8e8;
+      position: relative;
+    }
+
+    #output::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    #output::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 3px;
+    }
+
+    #output::-webkit-scrollbar-thumb {
+      background: linear-gradient(135deg, #20b2aa, #ff6b9d);
+      border-radius: 3px;
+    }
+
+    .controls {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+
+    button {
+      background: rgba(26, 26, 46, 0.6);
+      backdrop-filter: blur(10px);
+      color: #e8e8e8;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 14px 24px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      font-family: inherit;
+    }
+
+    button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      transition: left 0.5s;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      background: rgba(32, 178, 170, 0.1);
+      border-color: rgba(32, 178, 170, 0.3);
+      box-shadow: 
+        0 12px 40px rgba(32, 178, 170, 0.15),
+        0 0 20px rgba(32, 178, 170, 0.1);
+    }
+
+    button:hover::before {
+      left: 100%;
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .contact-form {
+      background: rgba(26, 26, 46, 0.8);
+      backdrop-filter: blur(20px);
+      padding: 40px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      margin-top: 30px;
+      display: none;
+    }
+
+    .contact-form h2 {
+      margin-bottom: 30px;
+      background: linear-gradient(135deg, #20b2aa 0%, #ff6b9d 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 300;
+      font-size: 1.5em;
+    }
+
+    .contact-form label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 14px;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      color: #e8e8e8;
+      margin-bottom: 20px;
+      font-family: inherit;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      outline: none;
+      border-color: #20b2aa;
+      box-shadow: 0 0 20px rgba(32, 178, 170, 0.2);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .contact-form input::placeholder,
+    .contact-form textarea::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .form-buttons {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .form-buttons button {
+      flex: 1;
+      min-width: 120px;
+    }
+
+    .cancel-btn {
+      background: rgba(255, 107, 107, 0.1) !important;
+      border-color: rgba(255, 107, 107, 0.3) !important;
+    }
+
+    .cancel-btn:hover {
+      background: rgba(255, 107, 107, 0.2) !important;
+      border-color: rgba(255, 107, 107, 0.5) !important;
+      box-shadow: 0 12px 40px rgba(255, 107, 107, 0.15) !important;
+    }
+
+    .welcome-message {
+      text-align: center;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 768px) {
+      .controls {
+        grid-template-columns: 1fr;
+      }
+      
+      .logo {
+        font-size: 2.2em;
+      }
+      
+      h1 {
+        font-size: 1.5em;
+      }
+
+      .contact-form {
+        padding: 30px 20px;
+      }
+
+      .form-buttons {
+        flex-direction: column;
       }
     }
-  
-    const contactFormHTML = `
-    <div id="contactForm" style="background: rgba(0, 0, 0, 0.8); padding: 20px; border-radius: 10px; box-shadow: 0 0 15px #00fff7; color: #fff;">
-      <h2>Contactez-nous</h2>
-      <form>
-        <label for="name">Nom :</label><br>
-        <input type="text" id="name" name="name" required><br><br>
-        
-        <label for="email">Email :</label><br>
-        <input type="email" id="email" name="email" required><br><br>
-        
-        <label for="message">Message :</label><br>
-        <textarea id="message" name="message" rows="4" required></textarea><br><br>
-        
-        <button type="submit">Envoyer</button>
-      </form>
-    </div>`;
-    const outputDiv = document.getElementById('output');
-    outputDiv.style.fontFamily = 'monospace'; // Utiliser une police monospace pour un affichage uniforme
-    function setFontSize(size) {
-      outputDiv.style.fontSize = size + 'px';
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
     }
-    setFontSize(16); // Taille de police par défaut
-    // Changer la couleur de fond et de texte
-    // Générateur de chiffres infini
-    let i = 0; // Chiffre de départ par défaut
+
+    .running-indicator {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background: #20b2aa;
+      border-radius: 50%;
+      margin-left: 8px;
+      animation: pulse 1.5s infinite;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">
+      <span>∞</span> InfiCounter
+    </div>
+    
+    <h1>Infinite Spam Counter</h1>
+    
+    <div id="output">
+      <div class="welcome-message">
+        🎉 Bienvenue dans InfiCounter !<br><br>
+        ⌨️ Appuyez sur ESPACE pour démarrer<br>
+        📋 Ctrl+C pour copier<br><br>
+        Prêt à compter ? 🚀
+      </div>
+    </div>
+    
+    <div class="controls">
+      <button id="toggleBtn" onclick="toggleGenerator()">▶️ Démarrer</button>
+      <button onclick="copierTexte()">📋 Copier les chiffres</button>
+      <button onclick="changeSpeed()">⚡ Vitesse (<span id="speedValue">50ms</span>)</button>
+      <button onclick="setStartNumber()">🔢 Chiffre de départ</button>
+      <button onclick="increaseFontSize()">🔍 Agrandir texte</button>
+      <button onclick="decreaseFontSize()">🔍 Réduire texte</button>
+      <button onclick="changerBackground()">🎨 Changer thème</button>
+      <button onclick="toggleContact()">✉️ Contact</button>
+      <button onclick="toggleMusic()">🎶 Musique</button>
+      <button onclick="window.open('https://ko-fi.com/Alevax', '_blank')">☕ Soutenir</button>
+    </div>
+
+    <div id="contactForm" class="contact-form">
+      <h2>Contactez-nous</h2>
+      <form onsubmit="submitContact(event)">
+        <label for="name">Nom</label>
+        <input type="text" id="name" name="name" placeholder="Votre nom" required>
+        
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="votre@email.com" required>
+        
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="4" placeholder="Votre message..." required></textarea>
+        
+        <div class="form-buttons">
+          <button type="submit">✨ Envoyer</button>
+          <button type="button" class="cancel-btn" onclick="toggleContact()">❌ Annuler</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Variables globales
+    let i = 0;
     let running = false;
     let interval;
-    let speed = 50; // Vitesse initiale (en ms)
+    let speed = 50;
+    let fontSize = 16;
+    let currentBg = 0;
+    let music = null;
 
+    // Éléments DOM
     const output = document.getElementById('output');
     const speedValue = document.getElementById('speedValue');
+    const contactForm = document.getElementById('contactForm');
+    const toggleBtn = document.getElementById('toggleBtn');
 
+    // Thèmes de couleurs
+    const backgrounds = [
+      {
+        bg: "linear-gradient(135deg, #1a1a2e 0%, #16213e 25%, #0f3460 50%, #533a71 75%, #6b4c57 100%)",
+        name: "Perplexity"
+      },
+      {
+        bg: "linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 25%, #2d2d30 50%, #1e1e1e 75%, #000000 100%)",
+        name: "Midnight"
+      },
+      {
+        bg: "linear-gradient(135deg, #2d1b69 0%, #11998e 25%, #38ef7d 50%, #667eea 75%, #764ba2 100%)",
+        name: "Aurora"
+      },
+      {
+        bg: "linear-gradient(135deg, #1e3c72 0%, #2a5298 25%, #667eea 50%, #764ba2 75%, #f093fb 100%)",
+        name: "Ocean"
+      },
+      {
+        bg: "linear-gradient(135deg, #4b6cb7 0%, #182848 25%, #2d1b69 50%, #0f0c29 75%, #24243e 100%)",
+        name: "Deep Space"
+      }
+    ];
+
+    // Fonctions principales
     function generate() {
+      if (output.querySelector('.welcome-message')) {
+        output.innerHTML = '';
+      }
       output.textContent += i + '\n';
       i++;
       output.scrollTop = output.scrollHeight;
@@ -90,111 +383,184 @@ function toggleMusic() {
       if (running) {
         clearInterval(interval);
         running = false;
+        toggleBtn.innerHTML = '▶️ Démarrer';
+        toggleBtn.querySelector('.running-indicator')?.remove();
       } else {
         interval = setInterval(generate, speed);
         running = true;
+        toggleBtn.innerHTML = '⏸️ Arrêter <span class="running-indicator"></span>';
       }
     }
 
     function copierTexte() {
       const texte = output.textContent;
+      if (texte.trim() === '' || output.querySelector('.welcome-message')) {
+        showNotification("❌ Aucun chiffre à copier !");
+        return;
+      }
+      
       navigator.clipboard.writeText(texte).then(() => {
-        alert("✅ Chiffres copiés !");
+        showNotification("✅ Chiffres copiés dans le presse-papiers !");
+      }).catch(err => {
+        showNotification("❌ Erreur lors de la copie");
+        console.error('Erreur copie:', err);
       });
     }
 
     function changeSpeed() {
-      speed = prompt("Entrez la nouvelle vitesse (en ms, par exemple 50, 100, 200, etc.):", speed);
-      speed = parseInt(speed);
-      if (isNaN(speed) || speed <= 0) {
-        alert("Veuillez entrer un nombre valide.");
+      const newSpeed = prompt("Entrez la nouvelle vitesse (en ms, par exemple 50, 100, 200, etc.):", speed);
+      const parsedSpeed = parseInt(newSpeed);
+      
+      if (isNaN(parsedSpeed) || parsedSpeed <= 0) {
+        showNotification("⚠️ Veuillez entrer un nombre valide supérieur à 0.");
         return;
       }
+      
+      speed = parsedSpeed;
       speedValue.textContent = speed + "ms";
+      
       if (running) {
         clearInterval(interval);
-        interval = setInterval(generate, speed); // Appliquer la nouvelle vitesse
+        interval = setInterval(generate, speed);
       }
+      
+      showNotification(`✅ Vitesse réglée à ${speed}ms`);
     }
 
     function setStartNumber() {
-      let startNumber = prompt("Entrez le chiffre de départ (par exemple : 108416)", i);
-      startNumber = parseInt(startNumber);
-      if (isNaN(startNumber) || startNumber <= 0) {
-        alert("Veuillez entrer un nombre valide.");
+      const startNumber = prompt("Entrez le chiffre de départ :", i);
+      const parsedNumber = parseInt(startNumber);
+      
+      if (isNaN(parsedNumber)) {
+        showNotification("⚠️ Veuillez entrer un nombre valide.");
         return;
       }
-      i = startNumber; // Mettre à jour le chiffre de départ
-      output.textContent = ''; // Réinitialiser l'affichage
+      
+      i = parsedNumber;
+      output.innerHTML = '';
+      showNotification(`✅ Chiffre de départ défini à ${i}`);
     }
+
+    function increaseFontSize() {
+      fontSize = Math.min(32, fontSize + 2);
+      output.style.fontSize = fontSize + 'px';
+      showNotification(`🔍 Taille: ${fontSize}px`);
+    }
+
+    function decreaseFontSize() {
+      fontSize = Math.max(10, fontSize - 2);
+      output.style.fontSize = fontSize + 'px';
+      showNotification(`🔍 Taille: ${fontSize}px`);
+    }
+
+    function changerBackground() {
+      currentBg = (currentBg + 1) % backgrounds.length;
+      const theme = backgrounds[currentBg];
+      
+      document.body.style.background = theme.bg;
+      showNotification(`🎨 Thème: ${theme.name}`);
+    }
+
+    function toggleContact() {
+      const isVisible = contactForm.style.display === 'block';
+      contactForm.style.display = isVisible ? 'none' : 'block';
+      
+      if (!isVisible) {
+        contactForm.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    function submitContact(event) {
+      event.preventDefault();
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const message = document.getElementById('message').value;
+      
+      // Simulation d'envoi
+      showNotification(`✅ Message envoyé !\n\nNom: ${name}\nEmail: ${email}`);
+      
+      // Reset du formulaire
+      document.getElementById('name').value = '';
+      document.getElementById('email').value = '';
+      document.getElementById('message').value = '';
+      
+      toggleContact();
+    }
+
+    function toggleMusic() {
+      try {
+        if (!music) {
+          const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+          const oscillator = audioContext.createOscillator();
+          const gainNode = audioContext.createGain();
+          
+          oscillator.connect(gainNode);
+          gainNode.connect(audioContext.destination);
+          
+          oscillator.frequency.setValueAtTime(440, audioContext.currentTime);
+          gainNode.gain.setValueAtTime(0.05, audioContext.currentTime);
+          
+          oscillator.start();
+          oscillator.stop(audioContext.currentTime + 0.3);
+          
+          showNotification("🎶 Fonction musique activée !");
+        }
+      } catch (error) {
+        showNotification("❌ Impossible d'activer la musique");
+      }
+    }
+
+    function showNotification(message) {
+      // Créer une notification temporaire
+      const notification = document.createElement('div');
+      notification.textContent = message;
+      notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: rgba(26, 26, 46, 0.9);
+        backdrop-filter: blur(20px);
+        color: #e8e8e8;
+        padding: 12px 20px;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        z-index: 1000;
+        font-size: 14px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        transform: translateX(400px);
+        transition: transform 0.3s ease;
+      `;
+      
+      document.body.appendChild(notification);
+      
+      // Animation d'entrée
+      setTimeout(() => {
+        notification.style.transform = 'translateX(0)';
+      }, 100);
+      
+      // Suppression après 3 secondes
+      setTimeout(() => {
+        notification.style.transform = 'translateX(400px)';
+        setTimeout(() => {
+          document.body.removeChild(notification);
+        }, 300);
+      }, 3000);
+    }
+
+    // Initialisation
+    output.style.fontSize = fontSize + 'px';
+    
+    // Raccourcis clavier
+    document.addEventListener('keydown', function(e) {
+      if (e.code === 'Space') {
+        e.preventDefault();
+        toggleGenerator();
+      }
+      if (e.code === 'KeyC' && e.ctrlKey) {
+        e.preventDefault();
+        copierTexte();
+      }
+    });
   </script>
 </body>
 </html>
-
-<script>
-  let fontSize = 16; // Taille initiale en pixels
-
-  function increaseFontSize() {
-    fontSize += 2;
-    document.getElementById('output').style.fontSize = fontSize + 'px';
-  }
-
-  function decreaseFontSize() {
-    fontSize = Math.max(10, fontSize - 2); // Limite minimale
-    document.getElementById('output').style.fontSize = fontSize + 'px';
-  }
-</script>
-
-<script>
-let backgrounds = [
-  { bg: "#282c34", color: "#61dafb" },
-  { bg: "#0f0f0f", color: "#00ffcc" },
-  { bg: "#1a0033", color: "#cc66ff" },
-  { bg: "#001f3f", color: "#7FDBFF" },
-  { bg: "#111111", color: "#39ff14" }
-];
-
-let currentBg = 0;
-
-function changerBackground() {
-  currentBg = (currentBg + 1) % backgrounds.length;
-  const theme = backgrounds[currentBg];
-
-  // Appliquer à body
-  document.body.style.backgroundColor = theme.bg;
-  document.body.style.color = theme.color;
-
-  // Appliquer à tous les boutons
-  document.querySelectorAll("button").forEach(btn => {
-    btn.style.backgroundColor = theme.color;
-    btn.style.color = theme.bg;
-  });
-
-  // Appliquer au logo
-  const logo = document.querySelector(".logo");
-  if (logo) logo.style.color = theme.color;
-}
-</script>
-
-
-    <div style="background: rgba(0, 0, 0, 0.8); padding: 20px; border-radius: 10px; box-shadow: 0 0 15px #00fff7; color: #fff;">
-      <h2>Contactez-nous</h2>
-      <form>
-        <label for="name">Nom :</label><br>
-        <input type="text" id="name" name="name" required><br><br>
-        
-        <label for="email">Email :</label><br>
-        <input type="email" id="email" name="email" required><br><br>
-        
-        <label for="message">Message :</label><br>
-        <textarea id="message" name="message" rows="4" required></textarea><br><br>
-        
-        <button type="submit">Envoyer</button>
-      </form>
-    </div>
-  `;
-
-    <script>
-      // Remplace l'URL de la musique par le fichier spécifié
-      music = new Audio('youtube_7dgGWEZfSDU_audio.mp3');
-    </script>
